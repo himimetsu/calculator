@@ -88,6 +88,38 @@ class MenuStore {
     this.isFloat = false;
   };
 
+  updateAfterEqually(callOperator) {
+    let result = '';
+    switch (callOperator) {
+      case '+':
+        result = Number(this.firstValue) + Number(this.lastValue);
+        this.firstValue > 10
+          ? [this.firstValue, '+', this.lastValue, '=']
+          : this.testStack.push(this.lastValue, '=')
+        break;
+      case '-':
+        result = Number(this.firstValue) - Number(this.lastValue);
+        this.firstValue > 10
+          ? [this.firstValue, '-', this.lastValue, '=']
+          : this.testStack.push(this.lastValue, '=')
+        break;
+      case '*':
+        result = Number(this.firstValue) * Number(this.lastValue);
+        this.firstValue > 10
+          ? [this.firstValue, '*', this.lastValue, '=']
+          : this.testStack.push(this.lastValue, '=')
+        break;
+      case '/':
+        result = Number(this.firstValue) / Number(this.lastValue);
+        this.firstValue > 10
+          ? [this.firstValue, '/', this.lastValue, '=']
+          : this.testStack.push(this.lastValue, '=')
+        break;
+    }
+
+    this.sum = this.value = this.firstValue = result;
+  };
+
   updateAfterCalculation(callOperator) {
     this.value = '0';
     this.sum = '';
@@ -222,56 +254,7 @@ class MenuStore {
   @action equally() {
     if (this.operator) {
       this.isFloat = false;
-      switch (this.operator) {
-        case '+':
-          if (this.firstValue > 10) {
-            this.stack = `${this.firstValue} + ${this.lastValue} =`;
-            this.testStack = [this.firstValue, '+', this.lastValue, '=']; //
-          } else {
-            this.stack += this.lastValue + '=';
-            this.testStack.push(this.lastValue, '='); //
-          }
-          this.sum = Number(this.firstValue) + Number(this.lastValue);
-          this.value = Number(this.firstValue) + Number(this.lastValue); //
-          this.firstValue = Number(this.firstValue) + Number(this.lastValue);
-          break;
-        case '-':
-          if (this.firstValue > 10) {
-            this.stack = `${this.firstValue} - ${this.lastValue} =`;
-            this.testStack = [this.firstValue, '-', this.lastValue, '=']; //
-          } else {
-            this.stack += this.lastValue + '=';
-            this.testStack.push(this.lastValue, '='); //
-          }
-          this.sum = Number(this.firstValue) - Number(this.lastValue); //
-          this.value = Number(this.firstValue) - Number(this.lastValue);
-          this.firstValue = Number(this.firstValue) - Number(this.lastValue);
-          break;
-        case '*':
-          if (this.firstValue > 10) {
-            this.stack = `${this.firstValue} * ${this.lastValue} =`;
-            this.testStack = [this.firstValue, '*', this.lastValue, '=']; //
-          } else {
-            this.stack += this.lastValue + '=';
-            this.testStack.push(this.lastValue, '='); //
-          }
-          this.sum = Number(this.firstValue) * Number(this.lastValue);
-          this.value = Number(this.firstValue) * Number(this.lastValue); //
-          this.firstValue = Number(this.firstValue) * Number(this.lastValue);
-          break;
-        case '/':
-          if (this.firstValue > 10) {
-            this.stack = `${this.firstValue} / ${this.lastValue} =`;
-            this.testStack = [this.firstValue, '/', this.lastValue, '=']; //
-          } else {
-            this.stack += this.lastValue + '=';
-            this.testStack.push(this.lastValue, '='); //
-          }
-          this.sum = Number(this.firstValue) / Number(this.lastValue);
-          this.value = Number(this.firstValue) / Number(this.lastValue); //
-          this.firstValue = Number(this.firstValue) / Number(this.lastValue);
-          break;
-      }
+      this.updateAfterEqually(this.operator);
     }
   };
 };
