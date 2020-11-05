@@ -18,6 +18,10 @@ class MenuStore {
   @action setValue(enter) {
     this.value = enter;
   };
+
+  @action setIsKeyboard() {
+    this.isKeyboard = !this.isKeyboard;
+  };
   @action clear() {
     this.value = '0';
     this.isKeyboard = true;
