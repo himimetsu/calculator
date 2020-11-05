@@ -28,6 +28,33 @@ class MenuStore {
     this.firstValue = this.value;
     this.value = '0';
   };
+
+  checkLastOperation(callOperator) {
+    if (this.operator && this.operator !== callOperator) {
+      if (!this.sum) {
+        switch (this.operator) {
+          case '+':
+            this.firstValue = Number(this.firstValue) + Number(this.lastValue);
+            break;
+          case '-':
+            this.firstValue = Number(this.firstValue) - Number(this.lastValue);
+            break;
+          case '*':
+            this.firstValue = Number(this.firstValue) * Number(this.lastValue);
+            break;
+          case '/':
+            this.firstValue = Number(this.firstValue) / Number(this.lastValue);
+            break;
+        }
+        this.stack = `${this.firstValue} ${this.operator} `;
+        this.testStack = [this.firstValue, callOperator]; //
+        this.value = '0';
+        this.isBlock = true;
+      }
+
+      this.lastValue = '0';
+    }
+  };
   @action clear() {
     this.value = '0';
     this.isKeyboard = true;
