@@ -18,6 +18,17 @@ class MenuStore {
   @action setValue(enter) {
     this.value = enter;
   };
+  @action clear() {
+    this.value = '0';
+    this.isKeyboard = true;
+    this.operator = '';
+    this.stack = '';
+    this.testStack = []; //
+    this.firstValue = '';
+    this.lastValue = '';
+    this.sum = '';
+    this.isBlock = false;
+  };
 };
 
 export default new MenuStore();
