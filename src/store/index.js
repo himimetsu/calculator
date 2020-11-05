@@ -9,6 +9,7 @@ class MenuStore {
   lastValue = '';
   sum = '';
   isBlock = false;
+  isFloat = false;
   testStack = [];
 
   constructor() {
@@ -30,6 +31,7 @@ class MenuStore {
   };
 
   checkLastOperation(callOperator) {
+    this.isFloat = false;
     if (this.operator && this.operator !== callOperator) {
       if (!this.sum) {
         switch (this.operator) {
@@ -93,6 +95,8 @@ class MenuStore {
     this.lastValue = '';
     this.sum = '';
     this.isBlock = false;
+    this.isFloat = false;
+  };
   };
 
   clearEntry() {
@@ -101,6 +105,7 @@ class MenuStore {
     } else {
       this.value = '0';
       this.lastValue = '';
+      this.isFloat = false;
     }
   };
 
@@ -225,6 +230,7 @@ class MenuStore {
 
   @action equally() {
     if (this.operator) {
+      this.isFloat = false;
       switch (this.operator) {
         case '+':
           if (this.firstValue > 10) {
