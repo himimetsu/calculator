@@ -22,6 +22,12 @@ class MenuStore {
   @action setIsKeyboard() {
     this.isKeyboard = !this.isKeyboard;
   };
+  startCalc(callOperator) {
+    this.testStack.push(this.value, callOperator); //
+    this.stack = this.value + `${callOperator}`;
+    this.firstValue = this.value;
+    this.value = '0';
+  };
   @action clear() {
     this.value = '0';
     this.isKeyboard = true;
