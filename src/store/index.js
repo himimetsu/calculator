@@ -29,6 +29,15 @@ class MenuStore {
     this.sum = '';
     this.isBlock = false;
   };
+
+  clearEntry() {
+    if (this.sum) {
+      this.clear();
+    } else {
+      this.value = '0';
+      this.lastValue = '';
+    }
+  };
 };
 
 export default new MenuStore();
