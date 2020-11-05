@@ -186,24 +186,15 @@ class MenuStore {
 
   @action digit(num) {
     if (!this.sum && this.operator) {
-      switch (this.operator) {
-        case '+':
-          this.lastValue = Number(this.lastValue) + num;
-          break;
-        case '-':
-          this.lastValue += num;
-          break;
-        case '*':
-          this.lastValue += num;
-          break;
-        case '/':
-          this.lastValue += num;
-          break;
-      }
+      String(this.lastValue[this.lastValue.length - 1]) === '.'
+        ? this.lastValue += num
+        : this.lastValue = Number(this.lastValue) + num
     }
 
     if (Number(this.value) === 0) {
-      this.value = num;
+      String(this.value[this.value.length - 1]) === '.'
+        ? this.value += num
+        : this.value = num
     } else {
       this.value += num;
     }
