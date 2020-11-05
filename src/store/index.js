@@ -14,6 +14,10 @@ class MenuStore {
   constructor() {
     makeAutoObservable(this);
   }
+
+  @action setValue(enter) {
+    this.value = enter;
+  };
 };
 
 export default new MenuStore();
