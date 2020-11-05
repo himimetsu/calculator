@@ -208,6 +208,61 @@ class MenuStore {
       this.value += num;
     }
   };
+
+  @action equally() {
+    if (this.operator) {
+      switch (this.operator) {
+        case '+':
+          if (this.firstValue > 10) {
+            this.stack = `${this.firstValue} + ${this.lastValue} =`;
+            this.testStack = [this.firstValue, '+', this.lastValue, '=']; //
+          } else {
+            this.stack += this.lastValue + '=';
+            this.testStack.push(this.lastValue, '='); //
+          }
+          this.sum = Number(this.firstValue) + Number(this.lastValue);
+          this.value = Number(this.firstValue) + Number(this.lastValue); //
+          this.firstValue = Number(this.firstValue) + Number(this.lastValue);
+          break;
+        case '-':
+          if (this.firstValue > 10) {
+            this.stack = `${this.firstValue} - ${this.lastValue} =`;
+            this.testStack = [this.firstValue, '-', this.lastValue, '=']; //
+          } else {
+            this.stack += this.lastValue + '=';
+            this.testStack.push(this.lastValue, '='); //
+          }
+          this.sum = Number(this.firstValue) - Number(this.lastValue); //
+          this.value = Number(this.firstValue) - Number(this.lastValue);
+          this.firstValue = Number(this.firstValue) - Number(this.lastValue);
+          break;
+        case '*':
+          if (this.firstValue > 10) {
+            this.stack = `${this.firstValue} * ${this.lastValue} =`;
+            this.testStack = [this.firstValue, '*', this.lastValue, '=']; //
+          } else {
+            this.stack += this.lastValue + '=';
+            this.testStack.push(this.lastValue, '='); //
+          }
+          this.sum = Number(this.firstValue) * Number(this.lastValue);
+          this.value = Number(this.firstValue) * Number(this.lastValue); //
+          this.firstValue = Number(this.firstValue) * Number(this.lastValue);
+          break;
+        case '/':
+          if (this.firstValue > 10) {
+            this.stack = `${this.firstValue} / ${this.lastValue} =`;
+            this.testStack = [this.firstValue, '/', this.lastValue, '=']; //
+          } else {
+            this.stack += this.lastValue + '=';
+            this.testStack.push(this.lastValue, '='); //
+          }
+          this.sum = Number(this.firstValue) / Number(this.lastValue);
+          this.value = Number(this.firstValue) / Number(this.lastValue); //
+          this.firstValue = Number(this.firstValue) / Number(this.lastValue);
+          break;
+      }
+    }
+  };
 };
 
 export default new MenuStore();
