@@ -38,6 +38,30 @@ class MenuStore {
       this.lastValue = '';
     }
   };
+  @action digit(num) {
+    if (!this.sum && this.operator) {
+      switch (this.operator) {
+        case '+':
+          this.lastValue = Number(this.lastValue) + num;
+          break;
+        case '-':
+          this.lastValue += num;
+          break;
+        case '*':
+          this.lastValue += num;
+          break;
+        case '/':
+          this.lastValue += num;
+          break;
+      }
+    }
+
+    if (Number(this.value) === 0) {
+      this.value = num;
+    } else {
+      this.value += num;
+    }
+  };
 };
 
 export default new MenuStore();
