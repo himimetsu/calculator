@@ -10,6 +10,10 @@
     justify-content: flex-end;
     font-size: 20px;
     color: gray;
+
+    .stack__item {
+      padding: 0 5px;
+    }
   }
 
   .input__enter {
