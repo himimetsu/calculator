@@ -64,20 +64,10 @@ class MenuStore {
 
     if (this.firstValue) {
       if (this.sum) {
-        this.value = '0';
-        this.sum = '';
-        this.lastValue = '';
-        this.stack = `${this.firstValue} + `;
-        this.testStack = [this.firstValue, '+']; //
+        this.updateAfterCalculation('+');
       } else {
         if (!this.isBlock) {
-          this.lastValue = this.value;
-          this.stack = this.stack + this.value + '+';
-          this.testStack.push(this.value, '+'); //
-          this.value = Number(this.firstValue) + Number(this.lastValue);
-          this.firstValue = this.value;
-          this.lastValue = this.value;
-          this.isBlock = true;
+          this.updateAfterDoubleSign('+');
         }
       }
     } else {
@@ -97,6 +87,36 @@ class MenuStore {
     this.isBlock = false;
     this.isFloat = false;
   };
+
+  updateAfterCalculation(callOperator) {
+    this.value = '0';
+    this.sum = '';
+    this.stack = `${this.firstValue} ${callOperator} `;
+    this.testStack = [this.firstValue, callOperator];
+    this.lastValue = '0';
+  };
+
+  updateAfterDoubleSign(callOperator) {
+    this.lastValue = this.value;
+    this.stack = this.stack + this.value + callOperator;
+    this.testStack.push(this.value, callOperator);
+    switch (callOperator) {
+      case '+':
+        this.value = Number(this.firstValue) + Number(this.lastValue);
+        break;
+      case '-':
+        this.value = Number(this.firstValue) - Number(this.lastValue);
+        break;
+      case '*':
+        this.value = Number(this.firstValue) * Number(this.lastValue);
+        break;
+      case '/':
+        this.value = Number(this.firstValue) / Number(this.lastValue);
+        break;
+    }
+    this.firstValue = this.value;
+    this.lastValue = this.value;
+    this.isBlock = true;
   };
 
   clearEntry() {
@@ -115,19 +135,10 @@ class MenuStore {
 
     if (this.firstValue) {
       if (this.sum) {
-        this.value = '0';
-        this.sum = '';
-        this.stack = `${this.firstValue} - `;
-        this.testStack = [this.firstValue, '-']; //
+        this.updateAfterCalculation('-');
       } else {
         if (!this.isBlock) {
-          this.lastValue = this.value;
-          this.stack = this.stack + this.value + '-';
-          this.testStack.push(this.value, '-'); //
-          this.value = Number(this.firstValue) - Number(this.lastValue);
-          this.firstValue = this.value;
-          this.lastValue = this.value;
-          this.isBlock = true;
+          this.updateAfterDoubleSign('-');
         }
       }
     } else {
@@ -141,20 +152,10 @@ class MenuStore {
 
     if (this.firstValue) {
       if (this.sum) {
-        this.value = '0';
-        this.sum = '';
-        this.lastValue = '';
-        this.stack = `${this.firstValue} / `;
-        this.testStack = [this.firstValue, '/']; //
+        this.updateAfterCalculation('/');
       } else {
         if (!this.isBlock) {
-          this.lastValue = this.value;
-          this.stack = this.stack + this.value + '/';
-          this.testStack.push(this.value, '/'); //
-          this.value = Number(this.firstValue) / Number(this.lastValue);
-          this.firstValue = this.value;
-          this.lastValue = this.value;
-          this.isBlock = true;
+          this.updateAfterDoubleSign('/');
         }
       }
     } else {
@@ -168,20 +169,10 @@ class MenuStore {
 
     if (this.firstValue) {
       if (this.sum) {
-        this.value = '0';
-        this.sum = '';
-        this.lastValue = '';
-        this.stack = `${this.firstValue} * `;
-        this.testStack = [this.firstValue, '*']; //
+        this.updateAfterCalculation('*');
       } else {
         if (!this.isBlock) {
-          this.lastValue = this.value;
-          this.stack = this.stack + this.value + '*';
-          this.testStack.push(this.value, '*'); //
-          this.value = Number(this.firstValue) * Number(this.lastValue);
-          this.firstValue = this.value;
-          this.lastValue = this.value;
-          this.isBlock = true;
+          this.updateAfterDoubleSign('*');
         }
       }
     } else {
