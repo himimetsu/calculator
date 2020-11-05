@@ -1,0 +1,12 @@
+.keyboard {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .row {
+    width: 100%;
+    display: flex;
+    color: white;
+    justify-content: flex-end;
+  }
+}
