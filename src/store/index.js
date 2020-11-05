@@ -209,6 +209,12 @@ class MenuStore {
     }
   };
 
+  @action denial() {
+    Number(this.value) > 0
+      ? this.value = `-${this.value}`
+      : this.value = this.value.substring(1)
+  };
+
   @action equally() {
     if (this.operator) {
       switch (this.operator) {
