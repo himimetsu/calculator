@@ -209,6 +209,16 @@ class MenuStore {
     }
   };
 
+  convertToFloat() {
+    if (!this.isFloat) {
+      this.value = `${this.value}.`;
+      this.isFloat = true;
+      if (!this.sum && this.operator) {
+        this.lastValue = `${this.lastValue}.`;
+      }
+    }
+  };
+
   @action denial() {
     Number(this.value) > 0
       ? this.value = `-${this.value}`
