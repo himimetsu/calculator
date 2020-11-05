@@ -55,6 +55,34 @@ class MenuStore {
       this.lastValue = '0';
     }
   };
+
+  @action plus() {
+    this.checkLastOperation('+');
+    this.operator = '+';
+
+    if (this.firstValue) {
+      if (this.sum) {
+        this.value = '0';
+        this.sum = '';
+        this.lastValue = '';
+        this.stack = `${this.firstValue} + `;
+        this.testStack = [this.firstValue, '+']; //
+      } else {
+        if (!this.isBlock) {
+          this.lastValue = this.value;
+          this.stack = this.stack + this.value + '+';
+          this.testStack.push(this.value, '+'); //
+          this.value = Number(this.firstValue) + Number(this.lastValue);
+          this.firstValue = this.value;
+          this.lastValue = this.value;
+          this.isBlock = true;
+        }
+      }
+    } else {
+      this.startCalc('+');
+    }
+  };
+
   @action clear() {
     this.value = '0';
     this.isKeyboard = true;
@@ -75,6 +103,87 @@ class MenuStore {
       this.lastValue = '';
     }
   };
+
+  @action minus() {
+    this.checkLastOperation('-');
+    this.operator = '-';
+
+    if (this.firstValue) {
+      if (this.sum) {
+        this.value = '0';
+        this.sum = '';
+        this.stack = `${this.firstValue} - `;
+        this.testStack = [this.firstValue, '-']; //
+      } else {
+        if (!this.isBlock) {
+          this.lastValue = this.value;
+          this.stack = this.stack + this.value + '-';
+          this.testStack.push(this.value, '-'); //
+          this.value = Number(this.firstValue) - Number(this.lastValue);
+          this.firstValue = this.value;
+          this.lastValue = this.value;
+          this.isBlock = true;
+        }
+      }
+    } else {
+      this.startCalc('-');
+    }
+  };
+
+  @action divide() {
+    this.checkLastOperation('/');
+    this.operator = '/';
+
+    if (this.firstValue) {
+      if (this.sum) {
+        this.value = '0';
+        this.sum = '';
+        this.lastValue = '';
+        this.stack = `${this.firstValue} / `;
+        this.testStack = [this.firstValue, '/']; //
+      } else {
+        if (!this.isBlock) {
+          this.lastValue = this.value;
+          this.stack = this.stack + this.value + '/';
+          this.testStack.push(this.value, '/'); //
+          this.value = Number(this.firstValue) / Number(this.lastValue);
+          this.firstValue = this.value;
+          this.lastValue = this.value;
+          this.isBlock = true;
+        }
+      }
+    } else {
+      this.startCalc('/');
+    }
+  };
+
+  @action multiply() {
+    this.checkLastOperation('*');
+    this.operator = '*';
+
+    if (this.firstValue) {
+      if (this.sum) {
+        this.value = '0';
+        this.sum = '';
+        this.lastValue = '';
+        this.stack = `${this.firstValue} * `;
+        this.testStack = [this.firstValue, '*']; //
+      } else {
+        if (!this.isBlock) {
+          this.lastValue = this.value;
+          this.stack = this.stack + this.value + '*';
+          this.testStack.push(this.value, '*'); //
+          this.value = Number(this.firstValue) * Number(this.lastValue);
+          this.firstValue = this.value;
+          this.lastValue = this.value;
+          this.isBlock = true;
+        }
+      }
+    } else {
+      this.startCalc('*');
+    }
+  };
+
   @action digit(num) {
     if (!this.sum && this.operator) {
       switch (this.operator) {
