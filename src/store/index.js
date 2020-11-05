@@ -209,6 +209,13 @@ class MenuStore {
     }
   };
 
+  delete() {
+    const newString = String(this.value.substring(0, this.value.length - 1));
+    if (String(this.value)[newString.length] === '.') this.isFloat = false;
+    if (!this.sum && this.operator) this.lastValue = newString;
+    newString ? this.value = newString : this.value = '0';
+  };
+
   convertToFloat() {
     if (!this.isFloat) {
       this.value = `${this.value}.`;
