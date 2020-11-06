@@ -168,7 +168,6 @@ class MenuStore {
         break;
     }
 
-    console.log('first: ', this.firstValue, 'last: ', this.lastValue, 'res: ', result);
     this.sum = this.value = this.firstValue = result;
   };
 
