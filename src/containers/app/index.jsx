@@ -3,7 +3,6 @@ import menuStore from '../../store';
 import React from 'react';
 import Input from '../../components/input/Input';
 import Keyboard from '../../components/keyboard/Keyboard';
-import Note from '../../components/note/Note';
 import './index.scss';
 
 const stores = { menuStore };
@@ -15,10 +14,6 @@ const App = observer(() => {
         <div className='container__enter'>
           <Input />
           <Keyboard />
-        </div>
-
-        <div className='container__info'>
-          <Note />
         </div>
       </div>
     </Provider>
