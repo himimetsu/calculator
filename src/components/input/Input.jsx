@@ -18,9 +18,6 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
   return (
     <div className='input'>
       <div className='input__stack'>
-        {menuStore.stack}
-      </div>
-      <div className='input__stack'>
         {menuStore.testStack.map((item) => {
           return (
             <div className='stack__item'>
