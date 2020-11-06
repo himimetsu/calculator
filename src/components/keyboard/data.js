@@ -100,8 +100,8 @@ export const data = [
     },
     {
       text: ',',
-      key: 'comma',
-      type: 'comma',
+      key: 'convertToFloat',
+      type: 'convertToFloat',
     },
     {
       text: '=',
