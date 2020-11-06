@@ -1,0 +1,22 @@
+.key {
+  max-width: 150px;
+  height: 80px;
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  cursor: pointer;
+  text-shadow: #5dc8e5 0 0 20px;
+  border: 1px solid #1a1a1a;
+  background-color: #131313;
+  user-select: none;
+
+  &[data-type=digit] {
+    background-color: #060606;
+  }
+
+  &:hover {
+    background-color: #222120;
+  }
+}
