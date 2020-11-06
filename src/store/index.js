@@ -248,9 +248,23 @@ class MenuStore {
   };
 
   @action denial() {
-    Number(this.value) > 0
-      ? this.value = `-${this.value}`
-      : this.value = this.value.substring(1)
+    if (Number(this.value)) {
+      if (String(this.value)[0] === '-') {
+        this.value = Number(String(this.value).substring(1));
+      } else {
+        this.value = `-${this.value}`;
+      }
+    }
+
+    if (this.lastValue) {
+      if (!this.sum && this.operator) {
+        if (String(this.lastValue)[0] === '-') {
+          this.lastValue = this.lastValue.substring(1);
+        } else {
+          this.lastValue = `-${this.lastValue}`;
+        }
+      }
+    }
   };
 
   @action equally() {
