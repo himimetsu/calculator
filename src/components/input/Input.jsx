@@ -7,12 +7,48 @@ const operators = ['+', '-', '*', '/', '='];
 const Input = inject('menuStore')(observer(({ menuStore }) => {
   const refInput = useRef();
 
+  const handlerKeydown = (e) => {
+    if (menuStore.isKeyboard) {
+      switch (e.code) {
+        case 'Backspace':
+          menuStore.delete();
+          break;
+        case 'Minus':
+          menuStore.minus();
+          break;
+        case 'Equal':
+          e.key === '=' ? menuStore.equally() : menuStore.plus();
+          break;
+        case 'Slash':
+          e.key === '/' && menuStore.divide();
+          break;
+        case 'Comma':
+          e.key === ',' && menuStore.convertToFloat();
+          break;
+        case 'Digit8':
+          e.shiftKey && menuStore.multiply();
+          break;
+        case 'Enter':
+          menuStore.equally();
+          break;
+      }
+    }
+  };
+
+  const handlerKeypress = (e) => {
+    if (Number.isInteger(Number(e.key))) {
+      menuStore.digit(e.key);
+    }
+  };
+
   useEffect(() => {
-    window.addEventListener('keypress', (e) => {
-      refInput.current.selectionStart = menuStore.value.length;
-      refInput.current.selectionEnd = menuStore.value.length;
-      menuStore.isKeyboard && menuStore.setValue(menuStore.value + e.key);
-    })
+    window.addEventListener('keydown', handlerKeydown);
+    window.addEventListener('keypress', handlerKeypress);
+
+    return () => {
+      window.removeEventListener('keydown', handlerKeydown);
+      window.removeEventListener('keypress', handlerKeypress);
+    }
   }, []);
 
   return (
