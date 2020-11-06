@@ -90,33 +90,37 @@ class MenuStore {
 
   updateAfterEqually(callOperator) {
     let result = '';
+    const [a, b, countZero] = this.fixedValue(this.firstValue, this.lastValue, callOperator);
+    const divider = countZero > 0 ? countZero : 1;
+
     switch (callOperator) {
       case '+':
-        result = Number(this.firstValue) + Number(this.lastValue);
-        this.firstValue > 10
-          ? [this.firstValue, '+', this.lastValue, '=']
-          : this.testStack.push(this.lastValue, '=')
+        result = (a + b) / divider;
+        this.testStack.length > 10
+          ? this.testStack = [a / divider, '+', b / divider, '=']
+          : this.testStack.push(b / divider, '+')
         break;
       case '-':
-        result = Number(this.firstValue) - Number(this.lastValue);
-        this.firstValue > 10
-          ? [this.firstValue, '-', this.lastValue, '=']
-          : this.testStack.push(this.lastValue, '=')
+        result = (a - b) / divider;
+        this.testStack.length > 10
+          ? [a / divider, '-', b / divider, '=']
+          : this.testStack.push(b / divider, '=')
         break;
       case '*':
-        result = Number(this.firstValue) * Number(this.lastValue);
-        this.firstValue > 10
-          ? [this.firstValue, '*', this.lastValue, '=']
-          : this.testStack.push(this.lastValue, '=')
+        result = (a / divider) * (b / divider)
+        this.testStack.length > 10
+          ? [a / divider, '*', b / divider, '=']
+          : this.testStack.push(b / divider, '=')
         break;
       case '/':
-        result = Number(this.firstValue) / Number(this.lastValue);
-        this.firstValue > 10
-          ? [this.firstValue, '/', this.lastValue, '=']
-          : this.testStack.push(this.lastValue, '=')
+        result = (a / divider) / (b / divider)
+        this.testStack.length > 10
+          ? [a / divider, '/', b / divider, '=']
+          : this.testStack.push(b / divider, '=')
         break;
     }
 
+    console.log('first: ', this.firstValue, 'last: ', this.lastValue, 'res: ', result);
     this.sum = this.value = this.firstValue = result;
   };
 
