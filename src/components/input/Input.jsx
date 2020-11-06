@@ -36,18 +36,12 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
         <input
           ref={refInput}
           type="text"
-          value={menuStore.sum ? menuStore.sum : menuStore.value}
-          onChange={(e) => {
-            menuStore.setValue(e.target.value);
-          }}
-          onFocus={() => {
-            menuStore.setIsKeyboard(false);
-          }}
-          onClick={() => {
-            refInput.current.selectionStart = menuStore.value.length;
-            refInput.current.selectionEnd = menuStore.value.length;
-          }}
-          onBlur={() => menuStore.setIsKeyboard(true)}
+          value={
+            menuStore.sum
+              ? menuStore.sum
+              : menuStore.value
+          }
+          onFocus={() => refInput.current.blur()}
         />
       </div>
     </div>
