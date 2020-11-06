@@ -5,7 +5,6 @@ import Key from './Key';
 import './Keyboard.scss';
 
 const Keyboard = inject('menuStore')(observer(({ menuStore }) => {
-  console.log(menuStore);
   return (
     <div className='keyboard'>
       {data.map((row, index) => {
