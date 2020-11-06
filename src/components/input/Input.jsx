@@ -22,7 +22,9 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
           return (
             <div className='stack__item'>
               {operators.includes(item)
-                ? item === '/' ? '÷' : item
+                ? item === '/'
+                  ? '÷'
+                  : item
                 : Number(item)
               }
             </div>
