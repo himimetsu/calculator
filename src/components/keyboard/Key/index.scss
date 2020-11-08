@@ -12,7 +12,7 @@
   background-color: #131313;
   user-select: none;
 
-  &[data-type=digit] {
+  &[data-type=digit], &[data-type=denial] {
     background-color: #060606;
   }
 
