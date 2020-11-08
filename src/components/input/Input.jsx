@@ -54,15 +54,10 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
   return (
     <div className='input'>
       <div className='input__stack'>
-        {menuStore.testStack.map((item, index) => {
+        {menuStore.stack.map((item, index) => {
           return (
             <div className='stack__item' key={item + index}>
-              {operators.includes(item)
-                ? item === '/'
-                  ? '÷'
-                  : item
-                : Number(item)
-              }
+              {item}
             </div>
           );
         })}
