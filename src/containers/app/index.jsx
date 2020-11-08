@@ -15,6 +15,14 @@ const App = observer(() => {
           <Input />
           <Keyboard />
         </div>
+        <div className='container__info'>
+          <div style={{ width: '100%' }}>
+            Last update: 08.11.2020
+          </div>
+          <div style={{ width: '100%' }}>
+            Version: 2
+          </div>
+        </div>  
       </div>
     </Provider>
   );
