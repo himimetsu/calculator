@@ -74,7 +74,9 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
           value={
             menuStore.sum
               ? menuStore.sum
-              : menuStore.value
+              : menuStore.firstValue && menuStore.operator
+                ? menuStore.lastValue
+                : menuStore.firstValue
           }
           onFocus={() => refInput.current.blur()}
         />
