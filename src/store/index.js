@@ -1,101 +1,205 @@
-import { action, computed, makeAutoObservable } from 'mobx';
+import { makeAutoObservable } from 'mobx';
+import { fixedValue } from '../utils/fixedValue';
 
 class MenuStore {
-  value = '0';
-  isKeyboard = true;
   operator = '';
-  stack = '';
-  firstValue = '';
-  lastValue = '';
+  firstValue = '0';
+  lastValue = '0';
   sum = '';
+  stack = [];
   isBlock = false;
-  isFloat = false;
-  testStack = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  @action setValue(enter) {
-    this.value = enter;
+  setFirstValue(value) {
+    this.firstValue = value;
   };
 
-  @action setIsKeyboard() {
-    this.isKeyboard = !this.isKeyboard;
+  setLasttValue(value) {
+    this.lastValue = value;
   };
 
-  @action clear() {
-    this.value = '0';
-    this.isKeyboard = true;
+  setOperator(callOperator) {
+    this.operator = callOperator;
+  };
+
+  setIsBlock(bool) {
+    this.isBlock = bool;
+  };
+
+  setSum(value) {
+    this.sum = value;
+  };
+
+  setStack(value) {
+    this.stack = value;
+  };
+
+  clear() {
     this.operator = '';
-    this.stack = '';
-    this.testStack = []; //
-    this.firstValue = '';
-    this.lastValue = '';
+    this.firstValue = '0';
+    this.lastValue = '0';
     this.sum = '';
+    this.stack = [];
     this.isBlock = false;
-    this.isFloat = false;
+  };
+
+  newUpdateAfterAction(first, last, callOperator) {
+    const [a, b, countZero] = fixedValue(first, last, callOperator);
+    const divider = countZero > 0 ? countZero : 1;
+    let result;
+
+    switch (callOperator) {
+      case '+':
+        result = (a + b) / divider;
+        break;
+      case '-':
+        result = (a - b) / divider;
+        break;
+      case '×':
+        result = (a / divider) * (b / divider);
+        break;
+      case '÷':
+        result = (a / divider) / (b / divider);
+        break;
+    }
+
+    this.setFirstValue(result);
+    this.setLasttValue(result);
+    this.setStack([first, callOperator, last, callOperator]);
   };
 
   clearEntry() {
     if (this.sum) {
       this.clear();
     } else {
-      this.value = '0';
       this.lastValue = '';
-      this.isFloat = false;
     }
   };
 
-  @action digit(num) {
-    if (!this.sum && this.operator) {
-      String(this.lastValue[this.lastValue.length - 1]) === '.'
-        ? this.lastValue += num
-        : this.lastValue = Number(this.lastValue) + num
-    }
+  action(callOperator) {
+    const { firstValue, lastValue, operator, isBlock, sum } = this;
 
-    if (Number(this.value) === 0) {
-      String(this.value[this.value.length - 1]) === '.'
-        ? this.value += num
-        : this.value = num
+    if (operator && operator !== callOperator) this.setOperator(callOperator)
+
+    if (sum) {
+      this.setFirstValue(sum);
+      this.setLasttValue('0');
+      this.setStack([sum, callOperator]);
+      this.setIsBlock(false);
+      this.setSum('');
     } else {
-      this.value += num;
-    }
-  };
-
-  delete() {
-    if (!this.sum) {
-      const newString = String(this.value).substring(0, this.value.length - 1);
-      if (String(this.value)[newString.length] === '.') this.isFloat = false;
-      if (this.operator) this.lastValue = newString;
-      newString ? this.value = newString : this.value = '0';
-    }
-  };
-
-  @action denial() {
-    if (Number(this.value)) {
-      if (String(this.value)[0] === '-') {
-        this.value = Number(String(this.value).substring(1));
+      if (!operator) {
+        this.setStack([firstValue, callOperator]);
+        this.setOperator(callOperator);
       } else {
-        this.value = `-${this.value}`;
-      }
-    }
-
-    if (this.lastValue) {
-      if (!this.sum && this.operator) {
-        if (String(this.lastValue)[0] === '-') {
-          this.lastValue = this.lastValue.substring(1);
-        } else {
-          this.lastValue = `-${this.lastValue}`;
+        if (!isBlock) {
+          this.newUpdateAfterAction(firstValue, lastValue, callOperator);
+          this.setIsBlock(true);
         }
       }
     }
   };
 
-  @action equally() {
-    if (this.operator) {
-      this.isFloat = false;
-      this.updateAfterEqually(this.operator);
+  digit(num) {
+    const { firstValue, lastValue, operator, isBlock } = this;
+
+    if (!Number(firstValue) || !operator) {
+      if (num === ',') {
+        !firstValue.includes('.') && this.setFirstValue(firstValue + '.');
+      } else {
+        if (firstValue === '0' && firstValue.length === 1) {
+          this.setFirstValue(num);
+        } else {
+          this.setFirstValue(firstValue + num);
+        }
+      }
+    } else {
+      if (num === ',') {
+        !lastValue.includes('.') && this.setLasttValue(lastValue + '.');
+      } else {
+        if (lastValue === '0' && lastValue.length === 1) {
+          this.setLasttValue(num);
+        } else {
+          if (isBlock) {
+            this.setLasttValue(num);
+            this.setIsBlock(false);
+          } else {
+            this.setLasttValue(lastValue + num);
+          }
+        }
+      }
+    }
+  };
+
+  delete() {
+    const { firstValue, lastValue, sum, operator } = this;
+
+    if (!sum) {
+      let newValue = '';
+      if (!Number(firstValue) || !operator) {
+        newValue = firstValue.substring(0, firstValue.length - 1);
+        newValue ? this.setFirstValue(newValue) : this.setFirstValue('0');
+      } else {
+        newValue = lastValue.substring(0, lastValue.length - 1);
+        newValue ? this.setLasttValue(newValue) : this.setLasttValue('0');
+      }
+    }
+  };
+
+  denial() {
+    const { firstValue, lastValue, sum, operator } = this;
+
+    if (!sum) {
+      if (!Number(firstValue) || !operator) {
+        if (firstValue[0] === '-') {
+          this.setFirstValue(firstValue.substring(1));
+        } else {
+          this.setFirstValue(`-${firstValue}`);
+        }
+      } else {
+        if (lastValue[0] === '-') {
+          this.setLasttValue(lastValue.substring(1));
+        } else {
+          this.setLasttValue(`-${lastValue}`);
+        }
+      }
+    }
+  };
+
+  calculation() {
+    const { firstValue, lastValue, operator, stack } = this;
+
+    if (operator) {
+      let result = '';
+      const [a, b, countZero] = fixedValue(firstValue, lastValue, operator);
+      const divider = countZero > 0 ? countZero : 1;
+
+      stack[stack.length - 1] === '=' && this.setStack(stack[stack.length - 1] = operator)
+
+      stack.length < 10
+        ? this.setStack(stack.concat([lastValue, '=']))
+        : this.setStack([firstValue, operator, lastValue, '='])
+
+      switch (operator) {
+        case '+':
+          result = (a + b) / divider;
+          break;
+        case '-':
+          result = (a - b) / divider;
+          break;
+        case '×':
+          result = (a / divider) * (b / divider);
+          break;
+        case '÷':
+          result = (a / divider) / (b / divider);
+          break;
+      }
+
+      this.setFirstValue(result);
+      this.setSum(result);
     }
   };
 };
