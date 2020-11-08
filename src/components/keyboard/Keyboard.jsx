@@ -10,8 +10,8 @@ const Keyboard = inject('menuStore')(observer(({ menuStore }) => {
       {data.map((row, index) => {
         return (
           <div className='row' key={index}>
-            {row.map((btn) => (
-              <Key {...btn} store={menuStore} />
+            {row.map((btn, index) => (
+              <Key {...btn} store={menuStore} key={index} />
             ))}
           </div>
         )

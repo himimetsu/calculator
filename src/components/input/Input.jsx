@@ -2,36 +2,32 @@ import React, { useEffect, useRef } from 'react';
 import { inject, observer } from 'mobx-react';
 import './Input.scss';
 
-const operators = ['+', '-', '*', '/', '='];
-
 const Input = inject('menuStore')(observer(({ menuStore }) => {
   const refInput = useRef();
 
   const handlerKeydown = (e) => {
-    if (menuStore.isKeyboard) {
-      switch (e.code) {
-        case 'Backspace':
-          menuStore.delete();
-          break;
-        case 'Minus':
-          menuStore.minus();
-          break;
-        case 'Equal':
-          e.key === '=' ? menuStore.equally() : menuStore.plus();
-          break;
-        case 'Slash':
-          e.key === '/' && menuStore.divide();
-          break;
-        case 'Comma':
-          e.key === ',' && menuStore.convertToFloat();
-          break;
-        case 'Digit8':
-          e.shiftKey && menuStore.multiply();
-          break;
-        case 'Enter':
-          menuStore.equally();
-          break;
-      }
+    switch (e.code) {
+      case 'Backspace':
+        menuStore.delete();
+        break;
+      case 'Minus':
+        menuStore.action('-');
+        break;
+      case 'Equal':
+        e.key === '=' ? menuStore.calculation() : menuStore.action('+');
+        break;
+      case 'Slash':
+        e.key === '/' && menuStore.action('÷');
+        break;
+      case 'Comma':
+        e.key === ',' && menuStore.digit(',');
+        break;
+      case 'Digit8':
+        e.shiftKey && menuStore.action('×');
+        break;
+      case 'Enter':
+        menuStore.calculation();
+        break;
     }
   };
 
@@ -54,15 +50,10 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
   return (
     <div className='input'>
       <div className='input__stack'>
-        {menuStore.testStack.map((item, index) => {
+        {menuStore.stack.map((item, index) => {
           return (
             <div className='stack__item' key={item + index}>
-              {operators.includes(item)
-                ? item === '/'
-                  ? '÷'
-                  : item
-                : Number(item)
-              }
+              {item}
             </div>
           );
         })}
@@ -74,7 +65,9 @@ const Input = inject('menuStore')(observer(({ menuStore }) => {
           value={
             menuStore.sum
               ? menuStore.sum
-              : menuStore.value
+              : menuStore.firstValue && menuStore.operator
+                ? menuStore.lastValue
+                : menuStore.firstValue
           }
           onFocus={() => refInput.current.blur()}
         />
