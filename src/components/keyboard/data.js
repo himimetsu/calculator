@@ -18,7 +18,7 @@ export const data = [
     {
       text: '÷',
       id: 'divide',
-      type: 'divide',
+      type: 'action',
     },
   ],
   [
@@ -40,7 +40,7 @@ export const data = [
     {
       text: '×',
       id: 'multiply',
-      type: 'multiply',
+      type: 'action',
     },
   ],
   [
@@ -62,7 +62,7 @@ export const data = [
     {
       text: '-',
       id: 'minus',
-      type: 'minus',
+      type: 'action',
     },
   ],
   [
@@ -84,7 +84,7 @@ export const data = [
     {
       text: '+',
       id: 'plus',
-      type: 'plus',
+      type: 'action',
     },
   ],
   [
@@ -100,13 +100,13 @@ export const data = [
     },
     {
       text: ',',
-      id: 'convertToFloat',
-      type: 'convertToFloat',
+      id: 'digitFloat',
+      type: 'digit',
     },
     {
       text: '=',
-      id: 'equally',
-      type: 'equally',
+      id: 'calculation',
+      type: 'calculation',
     },
   ],
 ];
